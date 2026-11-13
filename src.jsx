@@ -147,8 +147,38 @@ function Filters() {
 function Lines() {
   return <section className="section lines"><div className="section-top"><div><span className="eyebrow">UM FORNECEDOR. MUITAS POSSIBILIDADES.</span><h2>Além do <em>filtro.</em></h2></div><p>Um mix para utilidades, decoração, jardinagem, pet e reposição.</p></div><div className="line-grid">{categories.slice(1).map((c, i) => <a key={c.slug} href={`/produtos/${c.slug}`}><span className="mono">0{i + 2}</span><h3>{c.name}</h3><p>{c.note}</p><span className="arrow">↗</span></a>)}</div></section>;
 }
-function Quality() {
-  return <section className="section quality"><div className="section-top"><div><span className="eyebrow">CONFIANÇA PARA COMPRAR. SEGURANÇA PARA REVENDER.</span><h2>Qualidade <em>comprovada.</em></h2></div><a href="/qualidade" className="underlink">Entenda cada cuidado ↗</a></div><div className="seal-grid">{seals.map(([name, sub, detail]) => <details key={name}><summary><span>{name}</span><small>{sub}</small><b>+</b></summary><p>{detail}</p></details>)}</div></section>;
+function Quality({ withPhoto = false }) {
+  return (
+    <section className={withPhoto ? 'section quality quality-with-photo' : 'section quality'}>
+      {withPhoto && (
+        <div className="quality-photo">
+          <img src="/brand/menina-bebendo-agua.webp" alt="Menina bebendo água em um copo de vidro" loading="lazy" />
+        </div>
+      )}
+      <div className="quality-content">
+        <div className="section-top">
+          <div>
+            <span className="eyebrow">CONFIANÇA PARA COMPRAR. SEGURANÇA PARA REVENDER.</span>
+            <h2>Qualidade <em>comprovada.</em></h2>
+          </div>
+          {!withPhoto && <a href="/qualidade" className="underlink">Entenda cada cuidado ↗</a>}
+        </div>
+        <div className="seal-grid">
+          {seals.map(([name, sub, detail]) => withPhoto ? (
+            <div className="seal-item" key={name}>
+              <h3>{name}</h3>
+              <small>{sub}</small>
+            </div>
+          ) : (
+            <details key={name}>
+              <summary><span>{name}</span><small>{sub}</small><b>+</b></summary>
+              <p>{detail}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
 const highlights = [
   { label: 'Feito à mão, peça por peça', icon: 'M7 12V6a1.5 1.5 0 0 1 3 0v4-6a1.5 1.5 0 0 1 3 0v6-5a1.5 1.5 0 0 1 3 0v6-3a1.5 1.5 0 0 1 3 0v6a7 7 0 0 1-7 7h-1a6 6 0 0 1-5-2.7L3.2 14a1.5 1.5 0 0 1 2.4-1.8L7 14' },
@@ -176,7 +206,7 @@ function Home() {
     <Reveal className="section handmade home-handmade"><div className="image-frame"><img src="/brand/maos.webp" alt="Mãos cobertas de argila trabalhando a borda de uma peça" loading="lazy" /></div><div className="editorial-copy"><span className="eyebrow">O DIFERENCIAL QUE CHEGA AO SEU BALCÃO</span><h2>Feito à mão.<br /><em>Peça por peça.</em></h2><h3>Antes de ser filtro, é terra.<br />Antes de ser forma, é mão.</h3><p>Desde 1985, mantemos o torno e o trabalho de quem conhece a argila. Cada peça guarda o gesto de quem a fez.</p><p>Para a sua loja, uma origem para contar e um produto com identidade própria.</p><Button href="/feito-a-mao">Entre no nosso processo</Button></div></Reveal>
     <Reveal className="section pdv home-pdv"><div className="editorial-copy"><span className="eyebrow">DA EMBALAGEM À EXPOSIÇÃO</span><h2>Um espaço São Pedro.<br /><em>Dentro da sua loja.</em></h2><h3>O cuidado continua no PDV.</h3><p>Gôndolas e displays personalizados ajudam a organizar o mix e dar presença à marca no ponto de venda.</p><p>Da embalagem de embarque ao produto exposto, converse com a equipe sobre as possibilidades para a sua loja.</p><Button href="/para-sua-loja" pale>Vamos planejar seu espaço</Button></div><div className="package"><img src="/brand/display-pdv.webp" alt="Display de ponto de venda São Pedro com filtros, embalagens e vasos em uma loja" loading="lazy" /><span className="mono">CUIDADO QUE ACOMPANHA CADA PEÇA.</span></div></Reveal>
     <Reveal className="section reach"><div><span className="eyebrow">DA NOSSA TERRA, PARA MAIS LONGE</span><h2>De Jaboticabal<br />para o Brasil.<br /><em>E para o mundo.</em></h2></div><div className="reach-list"><article><span className="mono">01 / A TERRA</span><h3>A origem faz parte da peça.</h3><p>Em Jaboticabal, a argila e o ofício se encontram em um polo de produção de filtros de barro.</p></article><article><span className="mono">02 / O TEMPO</span><h3>Secar também é fabricar.</h3><p>O clima da região favorece a secagem natural, uma etapa importante antes da queima.</p></article><article><span className="mono">03 / O ALCANCE</span><h3>Artesanal, com escala.</h3><p>Abastecimento para todos os estados brasileiros e exportação. Converse sobre a operação para a sua região.</p></article></div></Reveal>
-    <Quality />
+    <Quality withPhoto />
     <Commercial /></>;
 }
 function HandmadeFilm() {
@@ -229,6 +259,13 @@ function App() {
   return <><Header /><main id="conteudo">{path === '/' ? <Home /> : <ContentPage path={path} />}</main><footer><Mark compact /><div>{nav.map(([name, url]) => <a key={url} href={url}>{name}</a>)}</div><p>Center Art Cerâmica Ltda. · Filtros São Pedro<br />Jaboticabal, São Paulo · Atendimento B2B<br />Fabricado no Maior Polo Industrial<br />de Filtros de Cerâmica (Barro) do Mundo</p><div className="footer-end">
     <span>Desenvolvido por Agência Daksa</span>
     <a href="#conteudo">Voltar ao topo ↑</a>
-  </div></footer></>;
+  </div></footer>
+    <a className="whatsapp-float" href="https://wa.me/551632025251" target="_blank" rel="noopener noreferrer" aria-label="Fale com a São Pedro pelo WhatsApp (abre em nova aba)">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2a10 10 0 0 0-8.66 15L2 22l5.16-1.35A10 10 0 1 0 12 2Zm0 18.3a8.3 8.3 0 0 1-4.25-1.17l-.31-.18-3.06.8.82-2.98-.2-.32A8.3 8.3 0 1 1 12 20.3Z" />
+        <path d="M9 7.35c-.17-.4-.34-.41-.52-.42h-.45c-.16 0-.42.06-.63.3-.22.24-.84.82-.84 2s.86 2.31.98 2.47c.12.16 1.7 2.7 4.12 3.68 2.02.81 2.44.65 2.88.61.44-.04 1.43-.58 1.63-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28l-1.65-.79c-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.19-.71-.64-1.19-1.42-1.33-1.66-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42L9 7.35Z" />
+      </svg>
+    </a>
+  </>;
 }
 createRoot(document.getElementById('root')).render(<App />);

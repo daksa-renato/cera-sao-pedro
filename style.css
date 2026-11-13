@@ -110,7 +110,7 @@
 .hero{position:relative;display:flex;isolation:isolate;background:#2d2116;color:var(--cream);min-height:calc(clamp(620px,49vw,850px) + 120px)}
 .hero-copy{position:relative;z-index:1;width:min(57%,800px)}
 .hero-copy h1 em{color:#e2b38c}
-.hero-copy p{color:#efe0cd;max-width:54ch;margin-bottom:clamp(32px,3vw,48px)}
+.hero-copy p{color:#efe0cd;font-size:clamp(1rem, 1.05vw, 1.1875rem);max-width:54ch;margin-bottom:clamp(32px,3vw,48px)}
 .hero-craft{white-space:nowrap}
 .hero-copy .button{background:var(--aqua);color:var(--earth)}
 .hero-copy .underlink:hover{color:var(--aqua)}
@@ -381,7 +381,66 @@
 }
 .floating .brand img { width: 124px; height: 124px; }
 
+.whatsapp-float {
+  position: fixed;
+  right: calc(clamp(16px, 2vw, 28px) + env(safe-area-inset-right));
+  bottom: calc(clamp(16px, 2vw, 28px) + env(safe-area-inset-bottom));
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #087a51;
+  color: #fff;
+  box-shadow: 0 5px 18px #21150d38;
+}
+.whatsapp-float:is(:hover, :focus-visible) { background: #086141; }
+.whatsapp-float svg { width: 30px; height: 30px; }
+
+.quality-with-photo {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 35px;
+  padding-block: 0;
+}
+.quality-with-photo .quality-content {
+  grid-column: span 2;
+  padding-block: clamp(36px, 4vw, 68px);
+}
+.quality-with-photo .section-top { flex-wrap: wrap; }
+.quality-with-photo .seal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.seal-item {
+  border-top: 1px solid #3d30274a;
+  padding-block: 22px;
+}
+.seal-item h3 {
+  margin: 0;
+  font-family: Fraunces, serif;
+  font-size: clamp(30px, 2.1vw, 38px);
+  line-height: inherit;
+  letter-spacing: normal;
+}
+.quality-photo {
+  position: relative;
+  margin-inline-start: calc(-1 * var(--gutter));
+}
+.quality-photo img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 42%;
+}
+
 @media (max-width: 760px) {
   .floating { display: none; }
   .home-pdv .package { height: 350px; }
+  .quality-with-photo { grid-template-columns: minmax(0, 1fr); }
+  .quality-with-photo .quality-content { grid-column: auto; }
+  .quality-photo {
+    margin-inline: calc(-1 * var(--gutter));
+    aspect-ratio: 4 / 3;
+  }
+  .seal-item h3 { font-size: clamp(1.25rem, 5vw, 1.75rem); }
 }
